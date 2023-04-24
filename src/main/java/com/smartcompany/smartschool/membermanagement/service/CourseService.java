@@ -2,17 +2,20 @@ package com.smartcompany.smartschool.membermanagement.service;
 
 import com.smartcompany.smartschool.common.APIException;
 import com.smartcompany.smartschool.membermanagement.data.CourseData;
+import com.smartcompany.smartschool.membermanagement.data.ReviewData;
 import com.smartcompany.smartschool.membermanagement.domain.Course;
 import com.smartcompany.smartschool.membermanagement.domain.Review;
 import com.smartcompany.smartschool.membermanagement.domain.repository.CourseRepository;
 import com.smartcompany.smartschool.membermanagement.domain.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -106,4 +109,14 @@ public class CourseService {
 
 
     }
+
+
+
+
+
+
+
+    public void deleteCourseByID(Long id) {
+courseRepository.findById(id).orElseThrow( () -> new IllegalArgumentException("Course not found with id " +id));
+    courseRepository.deleteById(id);}
 }

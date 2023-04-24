@@ -18,6 +18,7 @@ public class Review {
     private String reviewSecret;
 
     @ManyToOne
+    @JoinColumn( name = "my_course_id", nullable = false)
     private Course course;
 
     public ReviewData entyToDto(){

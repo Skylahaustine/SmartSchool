@@ -40,4 +40,11 @@ return  new ResponseEntity<CourseData>(courseService.saveCourse(courseData), Htt
         return  new ResponseEntity<CourseData>(courseService.updateCourseByID(id, courseData), HttpStatus.OK);
     }
 
+    @DeleteMapping("/course/{id}")
+public ResponseEntity<String> deleteCourse(@PathVariable Long id){
+
+        courseService.deleteCourseByID(id);
+        return new  ResponseEntity<String> ("deleted", HttpStatus.OK);
+    }
+
 }
