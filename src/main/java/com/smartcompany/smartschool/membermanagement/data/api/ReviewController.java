@@ -1,7 +1,12 @@
 package com.smartcompany.smartschool.membermanagement.data.api;
 
+import com.smartcompany.smartschool.common.Pager;
+import com.smartcompany.smartschool.common.PaginationUtil;
 import com.smartcompany.smartschool.membermanagement.data.ReviewData;
+import com.smartcompany.smartschool.membermanagement.domain.Review;
 import com.smartcompany.smartschool.membermanagement.service.ReviewService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +43,15 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReviewData>> getReviews(){
-        return reviewService.fetchReviews();
+    public ResponseEntity<Pager<List<ReviewData>>> getReviews(
+            @RequestParam(value = "page", required = false) final Integer pageNo,
+            @RequestParam(value = "pageSize", required = false) final Integer pageSize){
+        Pageable pageable = PaginationUtil.createUnPaged(pageNo, pageSize);
+        Page<ReviewData> page = reviewService.fetchReviews(pageable).map(Review::entyToDto);
+
+        @SuppressWarnings("unchecked") Pager<List<ReviewData>> pagers = (Pager<List<ReviewData>>) PaginationUtil.toPager(page, "Review Data");
+
+        return ResponseEntity.status(HttpStatus.OK).body(pagers);
     }
 
 }

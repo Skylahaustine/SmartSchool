@@ -5,6 +5,8 @@ import com.smartcompany.smartschool.membermanagement.domain.Course;
 import com.smartcompany.smartschool.membermanagement.domain.Review;
 import com.smartcompany.smartschool.membermanagement.domain.repository.CourseRepository;
 import com.smartcompany.smartschool.membermanagement.domain.repository.ReviewRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -64,14 +66,12 @@ public class ReviewService {
 
     }
 
-    public ResponseEntity<List<ReviewData>> fetchReviews() {
-        List<Review> reviews =  reviewRepository.findAll();
+    public Page<Review> fetchReviews(final Pageable pageable) {
+        Page<Review> reviews =  reviewRepository.findAll(pageable);
 
-        List<ReviewData> reviewData = reviews.stream()
-                .map(Review::entyToDto)
-                .collect(Collectors.toList());
 
-        return  ResponseEntity.ok().body(reviewData);
+
+        return  reviews;
 
 
     }
