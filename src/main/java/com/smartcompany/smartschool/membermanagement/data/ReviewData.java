@@ -10,6 +10,7 @@ import lombok.*;
 public class ReviewData {
     private Long id;
     private String name;
+    private Long courseId;
 
-    private  Long courseId;
+    private  CourseData courseData;
 }

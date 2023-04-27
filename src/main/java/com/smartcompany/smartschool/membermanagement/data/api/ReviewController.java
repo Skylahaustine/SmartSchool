@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/review")
 public class ReviewController {
     private final ReviewService reviewService;
 
@@ -17,22 +18,28 @@ public class ReviewController {
     }
 
 
-    @PostMapping("/reviews")
-    public ResponseEntity<List<ReviewData>> createReviews(@RequestParam("bookId") Long bookId, @RequestBody ReviewData reviewData
+    @PostMapping
+    public ResponseEntity<List<ReviewData>> createReviews(@RequestParam("courseId") Long courseId, @RequestBody ReviewData reviewData
     ) {
 
-        return new ResponseEntity<List<ReviewData>>(reviewService.saveReviews(bookId, reviewData), HttpStatus.CREATED);
+        return new ResponseEntity<List<ReviewData>>(reviewService.saveReviews(courseId, reviewData), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("review/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteReview(@PathVariable Long id) {
         reviewService.deleteById(id);
         return new ResponseEntity<String>("deleted", HttpStatus.OK);
 
     }
-    @PutMapping("review/{id}")
-    public  ResponseEntity<ReviewData> updateReview(@PathVariable Long id, @RequestBody ReviewData reviewData){
+    @PutMapping
+    public  ResponseEntity<ReviewData> updateReview(@RequestParam("id") Long id, @RequestBody ReviewData reviewData){
+
         return  new ResponseEntity<ReviewData>(reviewService.updateById(id, reviewData), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ReviewData>> getReviews(){
+        return reviewService.fetchReviews();
     }
 
 }

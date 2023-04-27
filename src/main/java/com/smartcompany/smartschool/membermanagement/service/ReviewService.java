@@ -5,11 +5,13 @@ import com.smartcompany.smartschool.membermanagement.domain.Course;
 import com.smartcompany.smartschool.membermanagement.domain.Review;
 import com.smartcompany.smartschool.membermanagement.domain.repository.CourseRepository;
 import com.smartcompany.smartschool.membermanagement.domain.repository.ReviewRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
@@ -21,8 +23,8 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    public List<ReviewData> saveReviews(Long bookId, ReviewData reviewData) {
-        Course course = courseRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Course not Found with id " + bookId));
+    public List<ReviewData> saveReviews(Long courseId, ReviewData reviewData) {
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new RuntimeException("Course not Found with id " + courseId));
 
 
         Review review = new Review();
@@ -46,7 +48,7 @@ public class ReviewService {
 
 
         review.setName(reviewData.getName());
-        if (reviewData.getCourseId() != null) {
+        if (reviewData.getCourseId() !=  null) {
             Optional<Course> optionalCourse = courseRepository.findById(reviewData.getCourseId());
             if (optionalCourse.isEmpty()) {
                 throw new RuntimeException("Course not found with id: " + reviewData.getCourseId());
@@ -58,6 +60,18 @@ public class ReviewService {
         Review reviewToSave = reviewRepository.save(review);
 
         return reviewToSave.entyToDto();
+
+
+    }
+
+    public ResponseEntity<List<ReviewData>> fetchReviews() {
+        List<Review> reviews =  reviewRepository.findAll();
+
+        List<ReviewData> reviewData = reviews.stream()
+                .map(Review::entyToDto)
+                .collect(Collectors.toList());
+
+        return  ResponseEntity.ok().body(reviewData);
 
 
     }
