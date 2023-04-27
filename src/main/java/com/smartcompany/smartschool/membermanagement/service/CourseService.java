@@ -78,32 +78,32 @@ public class CourseService {
         Course course1 = course.get();
         course1.setName(courseData.getName());
 
-        List<Review> reviewsToUpdate = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
         if (courseData.getReviewData() != null) {
+            course1.getReviews().forEach(review ->
+                    review.setCourse(null));
+            course1.getReviews().clear();
+
 
             courseData.getReviewData().forEach(reviewData -> {
-
-                Optional<Review> optionalReview = reviewRepository.findById(reviewData.getId());
-                if (optionalReview.isEmpty()) {
-                    throw new RuntimeException("Review not found with id: " + reviewData.getId());
-                }
-                Review review = optionalReview.get();
-                if (review.getCourse().getId().equals(id)) {
-
-                    review.setName(reviewData.getName());
-
-                    reviewsToUpdate.add(review);
-                } else {
-                    throw new IllegalArgumentException("Review with id " + reviewData.getId() + "Does not belong to" + courseData.getName());
-                }
+                Review review = new Review();
+                review.setName(review.getName());
+                review.setCourse(course1);
+                reviews.add(reviewRepository.save(review));
             });
 
 
         }
-        course1.setReviews(reviewsToUpdate);
+        course1.setReviews(reviews);
         Course courseToSave = courseRepository.save(course1);
         return courseToSave.entityToDto();
 
 
+    }
+
+
+    public void deleteCourseByID(Long id) {
+        courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Course not found with id " + id));
+        courseRepository.deleteById(id);
     }
 }

@@ -19,7 +19,7 @@ public class Course {
     private Long id;
     private String name;
     private String courseSecret;
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
     private List<Review> reviews;
 
     @ManyToMany(mappedBy = "courses")
