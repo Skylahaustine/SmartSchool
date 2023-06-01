@@ -7,6 +7,8 @@ import com.smartcompany.smartschool.membermanagement.domain.Review;
 import com.smartcompany.smartschool.membermanagement.domain.repository.CourseRepository;
 import com.smartcompany.smartschool.membermanagement.domain.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -50,12 +52,12 @@ public class CourseService {
     }
 
 
-    public ResponseEntity<List<CourseData>> fetchCourses() {
-        List<Course> courses = courseRepository.findAll();
-        List<CourseData> courseData = courses.stream()
-                .map(Course::entityToDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(courseData);
+    public Page<Course> fetchCourses(final Pageable pageable) {
+        Page<Course> courses = courseRepository.findAll(pageable);
+//        List<CourseData> courseData = courses.stream()
+//                .map(Course::entityToDto)
+//                .collect(Collectors.toList());
+        return courses;
 
 
     }
