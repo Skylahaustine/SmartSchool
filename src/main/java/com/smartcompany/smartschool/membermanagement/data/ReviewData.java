@@ -12,5 +12,5 @@ public class ReviewData {
     private String name;
     private Long courseId;
 
-    private  CourseData courseData;
+    private  String courseName;
 }

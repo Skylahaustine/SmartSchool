@@ -13,5 +13,5 @@ import java.util.List;
 public class CourseData {
     private Long id;
     private String name;
-    private List<ReviewData> reviewData;
+    private List<ReviewData> reviews;
 }

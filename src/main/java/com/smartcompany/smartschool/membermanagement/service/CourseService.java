@@ -29,8 +29,8 @@ public class CourseService {
 
         Course course1 = courseRepository.save(course);
 
-        if (courseData.getReviewData() != null) {
-            List<Review> reviews = courseData.getReviewData().stream()
+        if (courseData.getReviews() != null) {
+            List<Review> reviews = courseData.getReviews().stream()
                     .map(reviewData -> {
                         Review review = new Review();
 
@@ -79,13 +79,13 @@ public class CourseService {
         course1.setName(courseData.getName());
 
         List<Review> reviews = new ArrayList<>();
-        if (courseData.getReviewData() != null) {
+        if (courseData.getReviews() != null) {
             course1.getReviews().forEach(review ->
                     review.setCourse(null));
             course1.getReviews().clear();
 
 
-            courseData.getReviewData().forEach(reviewData -> {
+            courseData.getReviews().forEach(reviewData -> {
                 Review review = new Review();
                 review.setName(review.getName());
                 review.setCourse(course1);

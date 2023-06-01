@@ -1,5 +1,6 @@
 package com.smartcompany.smartschool.membermanagement.domain;
 
+import com.smartcompany.smartschool.membermanagement.data.CourseData;
 import com.smartcompany.smartschool.membermanagement.data.ReviewData;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +26,15 @@ public class Review {
         ReviewData reviewDto= new ReviewData();
                 reviewDto.setId(id);
         reviewDto.setName(name);
+        if(course !=null){
+            System.out.println("course.getName() = " + course.getName());
+            CourseData courseData = new CourseData();
+            reviewDto.setCourseId(course.getId());
+            reviewDto.setCourseName(course.getName());
+
+
+        }
+
 
         return reviewDto;
     }

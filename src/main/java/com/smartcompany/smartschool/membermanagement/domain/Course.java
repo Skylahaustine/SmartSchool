@@ -36,7 +36,7 @@ if (reviews != null){
             .map(Review::entyToDto)
             .collect(Collectors.toList());
 
-courseDto.setReviewData(reviewData);
+courseDto.setReviews(reviewData);
 
 }
 
