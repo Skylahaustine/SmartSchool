@@ -1,5 +1,6 @@
 package com.smartcompany.smartschool.membermanagement.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartcompany.smartschool.membermanagement.domain.Course;
 import lombok.Data;
 
@@ -20,9 +21,14 @@ public class StudentData {
     private String gender;
     private String address;
 
+
     private List<Long> courseIds;
+
+    private List<CourseData> courses;
 
 
 
 
 }
+
+

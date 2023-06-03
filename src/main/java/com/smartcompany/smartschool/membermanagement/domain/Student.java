@@ -1,11 +1,13 @@
 package com.smartcompany.smartschool.membermanagement.domain;
 
+import com.smartcompany.smartschool.membermanagement.data.CourseData;
 import com.smartcompany.smartschool.membermanagement.data.StudentData;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -40,6 +42,15 @@ public class Student {
         StudentData studentData= new StudentData();
         studentData.setEmail(email);
         studentData.setFirstName(firstName);
+if(courses !=null){
+List<CourseData> courseData= courses.stream()
+        .map(Course::entityToDto)
+        .toList();
+
+studentData.setCourses(courseData);
+}
+
+
         return  studentData;
 
 

@@ -31,7 +31,7 @@ courseDto.setId(id);
 courseDto.setName(name);
 
 if (reviews != null){
-    List<String> allReviews = new ArrayList<>();
+
     List<ReviewData> reviewData = reviews.stream()
             .map(Review::entyToDto)
             .collect(Collectors.toList());
